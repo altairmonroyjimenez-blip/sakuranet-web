@@ -1,10 +1,14 @@
-from flask import Flask
+from flask import Flask, render_template
+import os
 
-app = Flask(__name__)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+TEMPLATE_DIR = os.path.join(BASE_DIR, "app", "templates")
+
+app = Flask(__name__, template_folder=TEMPLATE_DIR)
 
 @app.route("/")
 def inicio():
-    return "<h1>¡Bienvenido a SakuraNet!</h1>"
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
