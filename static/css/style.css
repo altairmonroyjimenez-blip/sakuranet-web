@@ -1,0 +1,457 @@
+body {
+  background-color: #ffffff;
+  color: #FFFFFF;
+}
+
+.navbar-brand {
+  color: #7C3AED !important;
+  background-color: #000000 !important;
+}
+
+.btn-primary {
+  background-color: #1E3A8A;
+  border-color: #1E3A8A;
+}
+
+.hero-box {
+  width: 100%;
+  height: 250px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1E3A8A, #7C3AED);
+}
+.logo-nav {
+    height: 100px;
+    width: auto;
+    object-fit: contain;
+}
+.navbar {
+    background-color: #000000 !important; /* negro puro */
+}
+/* HERO con imagen de fondo blanco */
+.hero-section {
+    background-image: url('../img/wifiNeon.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 480px;
+    border-radius: 12px;
+    position: relative;
+}
+
+/* Capa para mejorar la lectura del texto, sin lavar tanto el color de fondo */
+.hero-overlay {
+    background: rgba(255, 255, 255, 0.2); /* blanco suave, más transparente */
+    height: 100%;
+    width: 100%;
+    padding: 40px;
+    border-radius: 12px;
+}
+
+.producto-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); /* brillo morado */
+}
+
+.producto-card img {
+    height: 180px;
+    object-fit: contain;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.paquete-card, .streaming-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.paquete-card:hover, .streaming-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+}
+
+.paquete-card img, .streaming-card img {
+    height: 150px;
+    object-fit: contain;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.destacado-mes {
+    background: linear-gradient(135deg, #1a1a1d, #0f0f10);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+.img-destacado {
+    width: 100%;
+    max-width: 350px;
+    object-fit: contain;
+}
+
+.precio-original {
+    font-size: 1.2rem;
+    text-decoration: line-through;
+}
+
+.precio-oferta {
+    font-size: 1.6rem;
+}
+
+.destacado-mes h2 {
+    color: #7C3AED;
+}
+
+.destacado-mes h3 {
+    color: #ffffff;
+}
+/* Banner completo */
+.banner-destacado {
+    width: 100%;
+    background: #000000; /* mismo color del navbar */
+    padding: 60px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Imagen centrada */
+.banner-img {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 25px rgba(124, 58, 237, 0.5));
+    opacity: 0.95;
+}
+
+/* Difuminado hacia abajo */
+.banner-destacado::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #0f0f10 100%);
+}
+
+/* Texto encima de la imagen */
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Títulos */
+.titulo-banner {
+    color: #7C3AED;
+    font-size: 2.4rem;
+}
+
+.nombre-banner {
+    font-size: 1.9rem;
+    color: #ffffff;
+}
+
+/* Frase comercial */
+.frase-banner {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #cfcfff;
+}
+
+/* Descripción */
+.descripcion-banner {
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+/* Precios */
+.precio-original-banner {
+    font-size: 1.2rem;
+    color: #ff4d4d;
+    text-decoration: line-through;
+}
+
+.precio-oferta-banner {
+    font-size: 2rem;
+    color: #4dff88;
+    font-weight: bold;
+}
+
+/* =========================================
+   BANNER "PRODUCTO DEL MES" - hero full-bleed
+   Sin tarjeta, sin bordes redondeados,
+   pegado al navbar, tipografía profesional
+   ========================================= */
+
+/* Full-bleed: rompe el .container de Bootstrap y ocupa 100% del viewport */
+.banner-mes {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    /* Cancela el padding superior de <main class="py-5"> para pegar con el navbar */
+    margin-top: -3rem;
+    background: #000;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 48px 24px 40px;
+    overflow: hidden;
+}
+
+/* Desvanecido hacia abajo, más suave: varios pasos intermedios
+   en vez de un degradado lineal de 2 puntos (que se nota como
+   una "banda" visible por cómo el ojo percibe el contraste) */
+.banner-mes::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0) 40%,
+        rgba(255,255,255,0.08) 60%,
+        rgba(255,255,255,0.35) 85%,
+        rgba(255,255,255,0.75) 88%,
+        #ffffff 110%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.banner-mes-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1140px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+    flex-wrap: wrap;
+}
+
+/* Columna de imagen */
+.banner-mes-imagen {
+    position: relative;
+    flex: 1 1 340px;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Imagen sin fondo (PNG transparente): tamaño controlado para que
+   no crezca más allá de la zona central del banner */
+.banner-mes-img {
+    width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 35px rgba(124, 58, 237, 0.45));
+}
+
+/* Columna de texto */
+.banner-mes-text {
+    flex: 1 1 380px;
+    max-width: 480px;
+    color: #fff;
+}
+
+.eyebrow-mes {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #a78bfa;
+    margin-bottom: 14px;
+}
+
+.nombre-mes {
+    font-size: 2.1rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+/* Frase como badge/píldora: fondo translúcido con borde suave,
+   mucho más llamativa que texto suelto */
+.frase-mes {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: #fff;
+    background: rgba(124, 58, 237, 0.16);
+    border: 1px solid rgba(167, 139, 250, 0.4);
+    border-radius: 10px;
+    padding: 12px 28px;
+    margin: 0 auto;
+    box-shadow: 0 0 24px rgba(124, 58, 237, 0.25);
+}
+
+.frase-mes::before {
+    font-size: 1rem;
+    color: #c4b5fd;
+    flex-shrink: 0;
+}
+
+/* Indicador de scroll: flecha animada para invitar a seguir bajando */
+.scroll-cue {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #ecc1ff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.scroll-cue svg {
+    width: 20px;
+    height: 20px;
+    animation: scrollBounce 1.6s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(6px); opacity: 1; }
+}
+
+.desc-mes {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #b3b3b8;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.precios-mes {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.precio-original-mes {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #7a7a80;
+    text-decoration: line-through;
+}
+
+.precio-oferta-mes {
+    font-size: 2.1rem;
+    color: #4dff88;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+/* Botón profesional: sin el azul plano de Bootstrap, con glow sutil */
+.btn-mes {
+    display: inline-block;
+    background: linear-gradient(135deg, #1E3A8A, #7C3AED);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    padding: 14px 34px;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(124, 58, 237, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-mes:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(124, 58, 237, 0.55);
+}
+
+/* =========================================
+   CTA STREAMING - mismo estilo que hero-section
+   de Internet: imagen de fondo + overlay claro
+   ========================================= */
+.hero-section-streaming {
+    background-image: url('../img/streaming.png');
+    background-size: 100% auto;
+    background-position: 60% center;
+    background-repeat: no-repeat;
+    height: 480px;
+    border-radius: 12px;
+    position: relative;
+}
+
+/* Eyebrow para usar sobre el overlay claro (a diferencia de .eyebrow-mes,
+   que está pensada para fondos oscuros) */
+.eyebrow-mes-dark {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7C3AED;
+    margin-bottom: 10px;
+}
+
+/* Botón secundario (outline), para CTAs de menor jerarquía
+   como "Ver Todos los Productos" */
+.btn-mes-outline {
+    display: inline-block;
+    background: transparent;
+    color: #7C3AED;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    padding: 12px 32px;
+    border: 2px solid #7C3AED;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.btn-mes-outline:hover {
+    background: #7C3AED;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .hero-section-streaming {
+        height: auto;
+        min-height: 420px;
+    }
+}
