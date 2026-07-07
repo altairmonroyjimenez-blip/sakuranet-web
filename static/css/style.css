@@ -455,3 +455,12 @@ body {
         min-height: 420px;
     }
 }
+.hero{
+    min-height:80vh;
+    display:flex;
+    align-items:center;
+}
+.btn-principal{
+    background:#7C3AED;
+    color:white;
+}
