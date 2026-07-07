@@ -231,9 +231,9 @@ body {
         to bottom,
         rgba(255,255,255,0) 40%,
         rgba(255,255,255,0.08) 60%,
-        rgba(255,255,255,0.35) 85%,
-        rgba(255,255,255,0.75) 88%,
-        #ffffff 110%
+        rgba(255,255,255,0.35) 95%,
+        rgba(255,255,255,0.75) 100%,
+        #ffffff 100%
     );
     pointer-events: none;
     z-index: 1;
@@ -480,15 +480,15 @@ body {
     .hero-section,
     .hero-section-streaming {
         height: auto;
-        min-height: 300px;
+        min-height: 30px;
         background-size: cover;
-        background-position: 75% center; /* empuja la imagen hacia el lado, menos estorbo */
+        background-position: 35% center; /* empuja la imagen hacia el lado, menos estorbo */
     }
 
     /* Overlay más oscuro para que el texto gane contraste sobre la imagen */
     .hero-overlay {
-        background: rgba(0, 0, 0, 0.55);
-        padding: 20px;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 50px;
     }
 
     /* Forzamos blanco porque el overlay ya no es claro */
@@ -497,7 +497,7 @@ body {
     .hero-section .lead,
     .hero-section-streaming .lead,
     .eyebrow-mes-dark {
-        color: #ffffff !important;
+        color: #000000 !important;
     }
 
     .hero-section h1,
@@ -507,7 +507,8 @@ body {
 
     .hero-section .lead,
     .hero-section-streaming .lead {
-        font-size: 0.85rem;
+        font-size: 1.0rem;
+        font-weight: bold;
     }
 
     /* --- BANNER DEL MES --- */
