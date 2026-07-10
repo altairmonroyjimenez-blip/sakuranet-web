@@ -2,6 +2,34 @@
 
 {% block content %}
 
+<section class="banner-mes">
+    <div class="banner-mes-container">
 
+        <div class="banner-mes-text">
+            <span class="eyebrow-mes">Nuestros Paquetes</span>
+            <h1 class="nombre-mes">Elige la Velocidad que Necesitas</h1>
+            <p class="desc-mes">
+                Desde 25 MB hasta 40 MB de velocidad — conecta tu hogar o negocio con el paquete ideal para ti.
+            </p>
+            <a href="#paquetes" class="btn-mes">Ver Todos los Paquetes</a>
+        </div>
+
+        <div class="banner-mes-imagen">
+            <img src="{{ url_for('static', filename='img/internet.png') }}"
+                 class="banner-paquetes-img"
+                 alt="Paquetes de Internet SakuraNet">
+        </div>
+
+    </div>
+
+    <!-- Frase independiente, centrada dentro del desvanecido -->
+    <p class="frase-mes">¡Conecta tu hogar con la mejor tecnología!</p>
+    <div class="scroll-cue">
+        <span>Descubre más</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"/>
+        </svg>
+    </div>
+</section>
 
 {% endblock %}

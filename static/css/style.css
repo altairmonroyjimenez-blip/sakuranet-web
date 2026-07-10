@@ -814,3 +814,25 @@ body {
     box-shadow: 0 0 10px #ff4df0;
     border-color: #ff4df0;
 }
+
+/* Imagen para banners tipo "collage" (ej. paquetes de Internet) */
+.banner-paquetes-img {
+    width: 100%;
+    max-width: 720px;
+    object-fit: contain;
+    display: block;
+    margin: 9px 0;
+    filter: drop-shadow(0 0 35px rgba(124, 58, 237, 0.45));
+}
+
+@media (max-width: 768px) {
+    .banner-paquetes-img {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-paquetes-img {
+        max-width: 100%;
+    }
+}
