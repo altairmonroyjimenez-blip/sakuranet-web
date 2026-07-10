@@ -18,15 +18,124 @@
 
         <div class="collapse navbar-collapse" id="navbarSakura">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('inicio') }}">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Internet</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Streaming</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+
+                <!-- Inicio -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'inicio' %}active{% endif %}"
+                       href="{{ url_for('inicio') }}">Inicio</a>
+                </li>
+
+                <!-- Productos con enlace + flecha -->
+                <li class="nav-item dropdown d-flex align-items-center">
+
+                    <!-- Enlace principal -->
+                    <a class="nav-link {% if request.endpoint in ['productos','papeleria','electronica'] %}active{% endif %}"
+                       href="{{ url_for('productos') }}">
+                        Productos
+                    </a>
+
+                    <!-- Flecha del menú -->
+                    <a class="nav-link dropdown-toggle dropdown-toggle-split"
+                       id="productosDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                    </a>
+
+                    <!-- Submenú -->
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="productosDropdown">
+                        <li><a class="dropdown-item" href="{{ url_for('papeleria') }}">Papelería</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('electronica') }}">Electrónica</a></li>
+                    </ul>
+                </li>
+
+                <!-- Internet -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'internet' %}active{% endif %}"
+                       href="{{ url_for('internet') }}">Internet</a>
+                </li>
+
+                <!-- Streaming -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'streaming' %}active{% endif %}"
+                       href="{{ url_for('streaming') }}">Streaming</a>
+                </li>
+
+                <!-- Contacto -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'contacto' %}active{% endif %}"
+                       href="{{ url_for('contacto') }}">Contacto</a>
+                </li>
+
             </ul>
+
+            <!-- Barra de búsqueda en Productos -->
+            {% if request.endpoint in ['productos','papeleria','electronica'] %}
+            <form class="search-bar-desktop d-none d-lg-block" role="search">
+                <div class="input-group">
+                    <span class="input-group-text neon-icon">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input class="form-control neon-input"
+                        type="search"
+                        placeholder="Buscar producto..."
+                        aria-label="Search">
+                </div>
+            </form>
+            {% endif %}
 
             <a class="btn btn-outline-light" href="#">Administrador</a>
         </div>
 
     </div>
 </nav>
+
+<!-- Barra móvil: título + búsqueda + regreso -->
+<div class="mobile-header d-lg-none">
+
+    <!-- Flecha para regresar -->
+    {% if request.endpoint in ['papeleria','electronica'] %}
+    <a href="{{ url_for('productos') }}" class="back-arrow">
+        ←
+    </a>
+    {% endif %}
+
+    <!-- Nombre de la sección -->
+    <span class="mobile-title">
+        {% if request.endpoint == 'inicio' %}
+            SakuraNet
+        {% elif request.endpoint == 'productos' %}
+            Nuestros productos
+        {% elif request.endpoint == 'papeleria' %}
+            Productos de papeleria
+        {% elif request.endpoint == 'electronica' %}
+            Productos de electronica
+        {% elif request.endpoint == 'internet' %}
+            Paquetes de internet
+        {% elif request.endpoint == 'streaming' %}
+            Plataformas de streaming
+        {% elif request.endpoint == 'contacto' %}
+            Contacto
+        {% else %}
+            SakuraNet
+        {% endif %}
+    </span>
+
+
+    <!-- Barra de búsqueda en productos y submenús -->
+    {% if request.endpoint in ['productos','papeleria','electronica'] %}
+        <form class="search-bar-mobile mt-2 d-block d-lg-none" role="search">
+            <div class="input-group">
+                <span class="input-group-text neon-icon">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input class="form-control neon-input"
+                    type="search"
+                    placeholder="Buscar producto..."
+                    aria-label="Search">
+            </div>
+        </form>
+        {% endif %}
+
+</div>
+

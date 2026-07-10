@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="banner-mes">
+    <div class="banner-mes-container">
+
+        <div class="banner-mes-imagen">
+            <img src="{{ url_for('static', filename='img/prismacolor.png') }}"
+                 class="banner-mes-img"
+                 alt="Producto del Mes">
+        </div>
+
+        <div class="banner-mes-text">
+            <span class="eyebrow-mes">Producto del Mes</span>
+            <h3 class="nombre-mes">Prismacolor Premier 48 Colores</h3>
+            <p class="desc-mes">Calidad profesional para artistas, estudiantes y amantes del dibujo.</p>
+
+            <div class="precios-mes">
+                <span class="precio-original-mes">Antes: $1,212</span>
+                <span class="precio-oferta-mes">Ahora: $799</span>
+            </div>
+
+            <a href="#" class="btn-mes">Comprar Ahora</a>
+        </div>
+
+    </div>
+
+    <!-- Frase independiente, centrada dentro del desvanecido -->
+    <p class="frase-mes">¡Todo lo que necesitas está en tu papelería en línea!</p>
+    <div class="scroll-cue">
+        <span>Descubre más</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"/>
+        </svg>
+    </div>
+</section>
+
+
+{% endblock %}
