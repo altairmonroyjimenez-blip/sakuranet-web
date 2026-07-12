@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from app.models.producto import Producto
 
 main_bp = Blueprint("main", __name__)
 
@@ -8,7 +9,8 @@ def inicio():
 
 @main_bp.route('/productos')
 def productos():
-    return render_template('productos.html')
+    lista_productos = Producto.query.filter_by(activo=True).all()
+    return render_template('productos.html', productos=lista_productos)
 
 @main_bp.route('/internet')
 def internet():

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
     <div class="container">
 
-        <a class="navbar-brand" href="{{ url_for('inicio') }}">
+        <a class="navbar-brand" href="{{ url_for('main.inicio') }}">
             <img src="{{ url_for('static', filename='img/logo2.0.png') }}"
                  alt="SakuraNet Logo"
                  class="logo-nav">
@@ -21,16 +21,16 @@
 
                 <!-- Inicio -->
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'inicio' %}active{% endif %}"
-                       href="{{ url_for('inicio') }}">Inicio</a>
+                    <a class="nav-link {% if request.endpoint == 'main.inicio' %}active{% endif %}"
+                       href="{{ url_for('main.inicio') }}">Inicio</a>
                 </li>
 
                 <!-- Productos con enlace + flecha -->
                 <li class="nav-item dropdown d-flex align-items-center">
 
                     <!-- Enlace principal -->
-                    <a class="nav-link {% if request.endpoint in ['productos','papeleria','electronica'] %}active{% endif %}"
-                       href="{{ url_for('productos') }}">
+                    <a class="nav-link {% if request.endpoint in ['main.productos','main.papeleria','main.electronica'] %}active{% endif %}"
+                       href="{{ url_for('main.productos') }}">
                         Productos
                     </a>
 
@@ -44,33 +44,33 @@
 
                     <!-- Submenú -->
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="productosDropdown">
-                        <li><a class="dropdown-item" href="{{ url_for('papeleria') }}">Papelería</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('electronica') }}">Electrónica</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.papeleria') }}">Papelería</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.electronica') }}">Electrónica</a></li>
                     </ul>
                 </li>
 
                 <!-- Internet -->
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'internet' %}active{% endif %}"
-                       href="{{ url_for('internet') }}">Internet</a>
+                    <a class="nav-link {% if request.endpoint == 'main.internet' %}active{% endif %}"
+                       href="{{ url_for('main.internet') }}">Internet</a>
                 </li>
 
                 <!-- Streaming -->
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'streaming' %}active{% endif %}"
-                       href="{{ url_for('streaming') }}">Streaming</a>
+                    <a class="nav-link {% if request.endpoint == 'main.streaming' %}active{% endif %}"
+                       href="{{ url_for('main.streaming') }}">Streaming</a>
                 </li>
 
                 <!-- Contacto -->
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'contacto' %}active{% endif %}"
-                       href="{{ url_for('contacto') }}">Contacto</a>
+                    <a class="nav-link {% if request.endpoint == 'main.contacto' %}active{% endif %}"
+                       href="{{ url_for('main.contacto') }}">Contacto</a>
                 </li>
 
             </ul>
 
             <!-- Barra de búsqueda en Productos -->
-            {% if request.endpoint in ['productos','papeleria','electronica'] %}
+            {% if request.endpoint in ['main.productos','main.papeleria','main.electronica'] %}
             <form class="search-bar-desktop d-none d-lg-block" role="search">
                 <div class="input-group">
                     <span class="input-group-text neon-icon">
@@ -93,27 +93,27 @@
 <div class="mobile-header d-lg-none">
 
     <!-- Flecha para regresar -->
-    {% if request.endpoint in ['papeleria','electronica'] %}
-    <a href="{{ url_for('productos') }}" class="back-arrow">
+    {% if request.endpoint in ['main.papeleria','main.electronica'] %}
+    <a href="{{ url_for('main.productos') }}" class="back-arrow">
         ←
     </a>
     {% endif %}
 
     <!-- Nombre de la sección -->
     <span class="mobile-title">
-        {% if request.endpoint == 'inicio' %}
+        {% if request.endpoint == 'main.inicio' %}
             SakuraNet
-        {% elif request.endpoint == 'productos' %}
+        {% elif request.endpoint == 'main.productos' %}
             Nuestros productos
-        {% elif request.endpoint == 'papeleria' %}
+        {% elif request.endpoint == 'main.papeleria' %}
             Productos de papeleria
-        {% elif request.endpoint == 'electronica' %}
+        {% elif request.endpoint == 'main.electronica' %}
             Productos de electronica
-        {% elif request.endpoint == 'internet' %}
+        {% elif request.endpoint == 'main.internet' %}
             Paquetes de internet
-        {% elif request.endpoint == 'streaming' %}
+        {% elif request.endpoint == 'main.streaming' %}
             Plataformas de streaming
-        {% elif request.endpoint == 'contacto' %}
+        {% elif request.endpoint == 'main.contacto' %}
             Contacto
         {% else %}
             SakuraNet
@@ -122,7 +122,7 @@
 
 
     <!-- Barra de búsqueda en productos y submenús -->
-    {% if request.endpoint in ['productos','papeleria','electronica'] %}
+    {% if request.endpoint in ['main.productos','main.papeleria','main.electronica'] %}
         <form class="search-bar-mobile mt-2 d-block d-lg-none" role="search">
             <div class="input-group">
                 <span class="input-group-text neon-icon">
@@ -137,4 +137,3 @@
         {% endif %}
 
 </div>
-

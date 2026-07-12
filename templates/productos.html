@@ -36,5 +36,27 @@
     </div>
 </section>
 
+<!-- PRODUCTOS DESDE LA BASE DE DATOS -->
+<section class="container mb-5">
+    <h2 class="mb-4 text-primary fw-bold">Todos los Productos</h2>
+
+    <div class="row g-4">
+        {% for producto in productos %}
+        <div class="col-6 col-md-3">
+            <div class="card producto-card h-100">
+                <img src="{{ url_for('static', filename='img/' ~ producto.imagen_sin_fondo) }}"
+                     class="card-img-top" alt="{{ producto.nombre }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                    <p class="card-text fw-bold">${{ "%.2f"|format(producto.precio) }}</p>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-secondary">Por el momento no hay productos disponibles.</p>
+        {% endfor %}
+    </div>
+</section>
 
 {% endblock %}
