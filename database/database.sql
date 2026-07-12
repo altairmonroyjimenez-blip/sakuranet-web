@@ -16,11 +16,14 @@ CREATE TABLE IF NOT EXISTS productos (
     descripcion TEXT,
     precio DECIMAL(10,2),
     stock INT,
-    imagen_con_fondo VARCHAR(255),   -- imagen original con fondo
-    imagen_sin_fondo VARCHAR(255),   -- imagen procesada sin fondo
+    imagen_con_fondo VARCHAR(255),
+    imagen_sin_fondo VARCHAR(255),
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_categoria INT,
     FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
 );
+
 
 -- Tabla ventas (para producto del mes y más vendidos)
 CREATE TABLE IF NOT EXISTS ventas (
@@ -68,10 +71,12 @@ CREATE TABLE IF NOT EXISTS paquetes_internet (
     id_paquete INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     velocidad VARCHAR(50),
+    subida VARCHAR(50),
     precio DECIMAL(10,2),
     descripcion TEXT,
     estado BOOLEAN
 );
+
 
 -- Tabla streaming
 CREATE TABLE IF NOT EXISTS streaming (
