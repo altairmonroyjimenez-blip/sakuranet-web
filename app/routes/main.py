@@ -31,3 +31,21 @@ def papeleria():
 @main_bp.route('/electronica')
 def electronica():
     return render_template('electronica.html')
+
+from flask import jsonify
+
+@main_bp.route('/api/productos')
+def api_productos():
+    lista_productos = Producto.query.filter_by(activo=True).all()
+
+    productos_json = [
+        {
+            "id": p.id_producto,
+            "nombre": p.nombre,
+            "precio": float(p.precio),
+            "imagen": p.imagen_sin_fondo
+        }
+        for p in lista_productos
+    ]
+
+    return jsonify(productos_json)

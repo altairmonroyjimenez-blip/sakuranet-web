@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Bienvenido, {{ current_user.nombre }}</h2>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="p-4 text-center panel-admin-card">
+            <h5>Total de Productos</h5>
+            <p style="font-size:2rem; color:#7C3AED; font-weight:800;">{{ total_productos }}</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="p-4 text-center panel-admin-card">
+            <h5>Productos Activos</h5>
+            <p style="font-size:2rem; color:#4dff88; font-weight:800;">{{ total_activos }}</p>
+        </div>
+    </div>
+</div>
+
+<a href="{{ url_for('admin.productos_lista') }}" class="btn-mes">Gestionar Productos</a>
+<a href="{{ url_for('auth.logout') }}" class="btn-mes-outline ms-2">Cerrar Sesión</a>
+{% endblock %}
