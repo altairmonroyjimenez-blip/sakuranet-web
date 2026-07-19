@@ -29,7 +29,7 @@
                 <li class="nav-item dropdown d-flex align-items-center">
 
                     <!-- Enlace principal -->
-                    <a class="nav-link {% if request.endpoint in ['main.productos','main.papeleria','main.electronica'] %}active{% endif %}"
+                    <a class="nav-link {% if request.endpoint in ['main.productos','main.papeleria','main.electronica','main.categoria_detalle'] %}active{% endif %}"
                        href="{{ url_for('main.productos') }}">
                         Productos
                     </a>
@@ -70,20 +70,27 @@
             </ul>
 
             <!-- Barra de búsqueda en Productos -->
-            {% if request.endpoint in ['main.productos','main.papeleria','main.electronica'] %}
-            <form class="search-bar-desktop d-none d-lg-block" role="search">
+            {% if request.endpoint in ['main.productos','main.papeleria','main.electronica','main.categoria_detalle'] %}
+            <form class="search-bar-desktop d-none d-lg-block" role="search" onsubmit="return false;">
                 <div class="input-group">
                     <span class="input-group-text neon-icon">
                         <i class="bi bi-search"></i>
                     </span>
-                    <input class="form-control neon-input"
+                    <input class="form-control neon-input" id="buscador-desktop"
                         type="search"
                         placeholder="Buscar producto..."
                         aria-label="Search">
                 </div>
             </form>
             {% endif %}
-
+            {% if current_user.is_authenticated %}
+            <div class="d-flex align-items-center gap-2 ms-3">
+                <span class="text-secondary small d-none d-lg-inline">👤 {{ current_user.nombre }}</span>
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-sm btn-outline-light">Panel</a>
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-outline-danger">Cerrar sesión</a>
+            </div>
+            {% endif %}
+            
         </div>
 
     </div>
@@ -93,7 +100,7 @@
 <div class="mobile-header d-lg-none">
 
     <!-- Flecha para regresar -->
-    {% if request.endpoint in ['main.papeleria','main.electronica'] %}
+    {% if request.endpoint in ['main.papeleria','main.electronica','main.categoria_detalle'] %}
     <a href="{{ url_for('main.productos') }}" class="back-arrow">
         ←
     </a>
@@ -109,6 +116,8 @@
             Productos de papeleria
         {% elif request.endpoint == 'main.electronica' %}
             Productos de electronica
+        {% elif request.endpoint == 'main.categoria_detalle' %}
+            {{ categoria.nombre }}
         {% elif request.endpoint == 'main.internet' %}
             Paquetes de internet
         {% elif request.endpoint == 'main.streaming' %}
@@ -122,13 +131,13 @@
 
 
     <!-- Barra de búsqueda en productos y submenús -->
-    {% if request.endpoint in ['main.productos','main.papeleria','main.electronica'] %}
-        <form class="search-bar-mobile mt-2 d-block d-lg-none" role="search">
+    {% if request.endpoint in ['main.productos','main.papeleria','main.electronica','main.categoria_detalle'] %}
+        <form class="search-bar-mobile mt-2 d-block d-lg-none" role="search" onsubmit="return false;">
             <div class="input-group">
                 <span class="input-group-text neon-icon">
                     <i class="bi bi-search"></i>
                 </span>
-                <input class="form-control neon-input"
+                <input class="form-control neon-input" id="buscador-mobile"
                     type="search"
                     placeholder="Buscar producto..."
                     aria-label="Search">

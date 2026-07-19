@@ -32,4 +32,60 @@
     </div>
 </section>
 
+<section class="container mb-5" id="paquetes">
+    <div class="text-center mb-4">
+        <span class="eyebrow-mes" style="color:#7C3AED;">Planes Disponibles</span>
+        <h2 class="text-primary fw-bold">Nuestros Paquetes de Internet</h2>
+        <p class="text-secondary">Encuentra la velocidad perfecta para tu hogar o negocio</p>
+    </div>
+
+    <div class="row g-4">
+    {% for paquete in paquetes %}
+    <div class="col-6 col-md-3">
+        <div class="paquete-internet-card tier-{{ loop.cycle('azul', 'teal', 'violeta', 'dorado') }}">
+            <div class="paquete-internet-header">
+                <div class="paquete-internet-icono">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 20.5C12.8284 20.5 13.5 19.8284 13.5 19C13.5 18.1716 12.8284 17.5 12 17.5C11.1716 17.5 10.5 18.1716 10.5 19C10.5 19.8284 11.1716 20.5 12 20.5Z" fill="currentColor"/>
+                        <path d="M8.5 15.5C10.5 13.7 13.5 13.7 15.5 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5 11.5C8.9 8 15.1 8 19 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M2 7.5C7.5 3 16.5 3 22 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="paquete-internet-velocidad">
+                    {{ paquete.velocidad }}<span>de bajada</span>
+                </div>
+                {% if paquete.subida %}
+                <div class="paquete-internet-subida">{{ paquete.subida }} de subida</div>
+                {% endif %}
+            </div>
+
+            <div class="paquete-internet-body">
+                <h5 class="mb-3">{{ paquete.nombre }}</h5>
+
+                {% if paquete.descripcion %}
+                <ul class="paquete-internet-lista">
+                    {% for caracteristica in paquete.descripcion.split('\n') if caracteristica.strip() %}
+                    <li>{{ caracteristica.strip() }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <div>
+                    <div class="paquete-internet-precio">
+                        ${{ "%.0f"|format(paquete.precio) }}<span>/mes</span>
+                    </div>
+                    {% if not current_user.is_authenticated %}
+<a href="{{ url_for('main.contacto', producto=paquete.nombre, precio=paquete.precio, tipo='Paquete de Internet') }}" class="btn-mes w-100 text-center d-block">Me interesa</a>
+{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-secondary text-center">Por el momento no hay paquetes disponibles.</p>
+    {% endfor %}
+</div>
+</section>
+
 {% endblock %}

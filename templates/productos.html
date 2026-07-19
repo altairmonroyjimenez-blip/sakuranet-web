@@ -21,7 +21,9 @@
                 <span class="precio-oferta-mes">Ahora: $799</span>
             </div>
 
-            <a href="#" class="btn-mes">Comprar Ahora</a>
+            {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('main.contacto', producto='Prismacolor Premier 48 Colores', precio='799', tipo='Producto') }}" class="btn-mes">Comprar Ahora</a>
+            {% endif %}
         </div>
 
     </div>
@@ -36,69 +38,111 @@
     </div>
 </section>
 
-<!-- PRODUCTOS DESDE LA BASE DE DATOS -->
-<section class="container mb-5">
-    <h2 class="mb-4 text-primary fw-bold">Todos los Productos</h2>
-
-    <div class="row g-4" id="contenedor-productos">
-        {% for producto in productos %}
-        <div class="col-6 col-md-3">
-            <div class="card producto-card h-100">
-                <img src="{{ url_for('static', filename='img/' ~ producto.imagen_sin_fondo) }}"
-                     class="card-img-top" alt="{{ producto.nombre }}">
-                <div class="card-body text-center">
-                    <h5 class="card-title">{{ producto.nombre }}</h5>
-                    <p class="card-text fw-bold">${{ "%.2f"|format(producto.precio) }}</p>
-                    <a href="#" class="btn btn-primary">Comprar</a>
-                </div>
-            </div>
+<!-- SECCIONES DE PRODUCTOS POR CATEGORÍA (dinámicas, se generan solas) -->
+<div id="contenedor-categorias">
+    {% for cat in categorias %}
+    <section class="container mb-5" data-categoria-id="{{ cat.id_categoria }}">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary fw-bold mb-0">{{ cat.nombre }}</h2>
+            <a href="{{ url_for('main.categoria_detalle', id_categoria=cat.id_categoria) }}"
+               class="btn-mes-outline">Ver todo →</a>
         </div>
-        {% else %}
-        <p class="text-secondary">Por el momento no hay productos disponibles.</p>
-        {% endfor %}
-    </div>
-</section>
 
-<script>
-let ultimoHashProductos = null;
-
-async function actualizarProductos() {
-    try {
-        const respuesta = await fetch("{{ url_for('main.api_productos') }}");
-        const productos = await respuesta.json();
-
-        // Comparamos con un "hash" simple (JSON como texto) para no redibujar si no cambió nada
-        const hashActual = JSON.stringify(productos);
-        if (hashActual === ultimoHashProductos) return;
-        ultimoHashProductos = hashActual;
-
-        const contenedor = document.getElementById('contenedor-productos');
-
-        if (productos.length === 0) {
-            contenedor.innerHTML = '<p class="text-secondary">Por el momento no hay productos disponibles.</p>';
-            return;
-        }
-
-        contenedor.innerHTML = productos.map(p => `
+        <div class="row g-4" id="contenedor-productos-{{ cat.id_categoria }}">
+            {% for producto in productos_por_categoria[cat.id_categoria][:4] %}
             <div class="col-6 col-md-3">
                 <div class="card producto-card h-100">
-                    <img src="/static/img/${p.imagen}" class="card-img-top" alt="${p.nombre}">
+                    <img src="{{ url_for('static', filename='img/' ~ producto.imagen_sin_fondo) }}"
+                         class="card-img-top" alt="{{ producto.nombre }}">
                     <div class="card-body text-center">
-                        <h5 class="card-title">${p.nombre}</h5>
-                        <p class="card-text fw-bold">$${p.precio.toFixed(2)}</p>
-                        <a href="#" class="btn btn-primary">Comprar</a>
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text fw-bold">${{ "%.2f"|format(producto.precio) }}</p>
+                        {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('main.contacto', producto=producto.nombre, precio=producto.precio, tipo='Producto') }}" class="btn btn-primary">Comprar</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        `).join('');
+            {% else %}
+            <p class="text-secondary">Aún no hay productos en esta categoría.</p>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</div>
+
+<script>
+let ultimoHashCategorias = null;
+
+function construirTarjetasHTML(productos) {
+    if (productos.length === 0) {
+        return '<p class="text-secondary">Aún no hay productos en esta categoría.</p>';
+    }
+    return productos.slice(0, 4).map(p => {
+        const urlContacto = `/contacto?producto=${encodeURIComponent(p.nombre)}&precio=${p.precio}&tipo=Producto`;
+        return `
+        <div class="col-6 col-md-3">
+            <div class="card producto-card h-100">
+                <img src="/static/img/${p.imagen}" class="card-img-top" alt="${p.nombre}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${p.nombre}</h5>
+                    <p class="card-text fw-bold">$${p.precio.toFixed(2)}</p>
+                    ${window.ES_ADMIN ? '' : `<a href="${urlContacto}" class="btn btn-primary">Comprar</a>`}
+                </div>
+            </div>
+        </div>
+    `;
+    }).join('');
+}
+
+function construirSeccionHTML(categoria) {
+    return `
+        <section class="container mb-5" data-categoria-id="${categoria.id_categoria}">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="text-primary fw-bold mb-0">${categoria.nombre_categoria}</h2>
+                <a href="/categoria/${categoria.id_categoria}" class="btn-mes-outline">Ver todo →</a>
+            </div>
+            <div class="row g-4" id="contenedor-productos-${categoria.id_categoria}">
+                ${construirTarjetasHTML(categoria.productos)}
+            </div>
+        </section>
+    `;
+}
+
+async function actualizarCategorias() {
+    try {
+        const respuesta = await fetch("{{ url_for('main.api_productos') }}");
+        const categorias = await respuesta.json();
+
+        const hashActual = JSON.stringify(categorias);
+        if (hashActual === ultimoHashCategorias) return;
+        ultimoHashCategorias = hashActual;
+
+        const contenedorGeneral = document.getElementById('contenedor-categorias');
+
+        categorias.forEach(categoria => {
+            const contenedorProductos = document.getElementById(`contenedor-productos-${categoria.id_categoria}`);
+
+            if (contenedorProductos) {
+                contenedorProductos.innerHTML = construirTarjetasHTML(categoria.productos);
+            } else {
+                contenedorGeneral.insertAdjacentHTML('beforeend', construirSeccionHTML(categoria));
+            }
+        });
+
+        const idsActuales = categorias.map(c => String(c.id_categoria));
+        document.querySelectorAll('[data-categoria-id]').forEach(seccion => {
+            if (!idsActuales.includes(seccion.dataset.categoriaId)) {
+                seccion.remove();
+            }
+        });
 
     } catch (error) {
-        console.error('Error actualizando productos:', error);
+        console.error('Error actualizando categorías:', error);
     }
 }
 
-// Revisa cada 5 segundos si hay cambios
-setInterval(actualizarProductos, 1000);
+setInterval(actualizarCategorias, 5000);
 </script>
 
 {% endblock %}

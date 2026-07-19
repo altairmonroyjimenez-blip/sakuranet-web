@@ -1,7 +1,159 @@
 {% extends "base.html" %}
 
 {% block content %}
+<section class="banner-mes">
+    <div class="banner-mes-container">
 
+        <div class="banner-mes-text">
+            <span class="eyebrow-mes">Nuestras Plataformas</span>
+            <h1 class="nombre-mes">Elige las plataformas ideales para tu entretenimiento</h1>
+            <p class="desc-mes">
+                Disfruta de tus servicios favoritos como Netflix, Prime Video, YouTube, Spotify y más.
+            </p>
+            <a href="#plataformas" class="btn-mes">Ver Todas las Plataformas</a>
+        </div>
 
+        <div class="banner-mes-imagen">
+            <img src="{{ url_for('static', filename='img/streaming2.png') }}"
+                 class="banner-paquetes-img"
+                 alt="Plataformas de Streaming SakuraNet">
+        </div>
+
+    </div>
+
+    <p class="frase-mes">¡Entretenimiento sin límites para tu hogar!</p>
+    <div class="scroll-cue">
+        <span>Descubre más</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"/>
+        </svg>
+    </div>
+</section>
+
+<section id="plataformas" class="streaming-section">
+    <div class="text-center mb-4">
+        <span class="eyebrow-mes" style="color:#7C3AED;">Catálogo</span>
+        <h2 class="text-primary fw-bold">Plataformas Disponibles</h2>
+        <p class="text-secondary">Contrata la que más se ajuste a lo que te gusta ver o escuchar</p>
+    </div>
+
+    {% if plataformas %}
+    <div class="carousel-wrapper">
+        <div class="carousel-container">
+            <button class="carousel-arrow carousel-arrow-left" id="flecha-izquierda" aria-label="Anterior">‹</button>
+
+            <div class="carousel-track" id="carousel-track" data-total-original="{{ plataformas|length }}">
+                {% for plataforma in plataformas + plataformas %}
+                <div class="card-stream">
+                    <div class="card-stream-logo">
+                        <img src="{{ url_for('static', filename='img/' ~ plataforma.imagen) }}" alt="{{ plataforma.nombre }}">
+                    </div>
+                    <h3>{{ plataforma.nombre }}</h3>
+                    <p>{{ plataforma.descripcion }}</p>
+                    <div class="card-stream-precio">
+                        ${{ "%.0f"|format(plataforma.precio) }}<span>/mes</span>
+                    </div>
+                    {% if not current_user.is_authenticated %}
+<a href="{{ url_for('main.contacto', producto=plataforma.nombre, precio=plataforma.precio, tipo='Plataforma de Streaming') }}" class="btn-interesa">Me interesa</a>
+{% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <button class="carousel-arrow carousel-arrow-right" id="flecha-derecha" aria-label="Siguiente">›</button>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-secondary text-center">Por el momento no hay plataformas disponibles.</p>
+    {% endif %}
+</section>
+
+<script>
+const track = document.getElementById('carousel-track');
+
+if (track) {
+    const flechaIzq = document.getElementById('flecha-izquierda');
+    const flechaDer = document.getElementById('flecha-derecha');
+    const totalOriginal = parseInt(track.dataset.totalOriginal, 10);
+
+    // Quitamos el scroll suave del navegador: nosotros controlamos el movimiento a mano
+    track.style.scrollBehavior = 'auto';
+
+    function anchoUnaVuelta() {
+        const tarjeta = track.querySelector('.card-stream');
+        if (!tarjeta) return 0;
+        const estilo = getComputedStyle(track);
+        const gap = parseFloat(estilo.gap) || 20;
+        return (tarjeta.offsetWidth + gap) * totalOriginal;
+    }
+
+    let pausado = false;
+    let arrastrando = false;
+    let startX, scrollLeftInicial;
+
+    // --- Arrastre manual con mouse ---
+    track.addEventListener('mousedown', e => {
+        arrastrando = true;
+        pausado = true;
+        track.classList.add('arrastrando');
+        startX = e.pageX - track.offsetLeft;
+        scrollLeftInicial = track.scrollLeft;
+    });
+
+    track.addEventListener('mouseleave', () => {
+        arrastrando = false;
+        track.classList.remove('arrastrando');
+    });
+
+    window.addEventListener('mouseup', () => {
+        arrastrando = false;
+        track.classList.remove('arrastrando');
+    });
+
+    track.addEventListener('mousemove', e => {
+        if (!arrastrando) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 2;
+        track.scrollLeft = scrollLeftInicial - walk;
+    });
+
+    // Pausa el auto-movimiento mientras el mouse está encima (sin necesidad de arrastrar)
+    track.addEventListener('mouseenter', () => pausado = true);
+    track.addEventListener('mouseleave', () => {
+        if (!arrastrando) pausado = false;
+    });
+
+    // --- Flechas: saltos manuales ---
+    flechaIzq.addEventListener('click', () => {
+        const tarjeta = track.querySelector('.card-stream');
+        const gap = parseFloat(getComputedStyle(track).gap) || 20;
+        track.scrollLeft -= (tarjeta.offsetWidth + gap);
+    });
+
+    flechaDer.addEventListener('click', () => {
+        const tarjeta = track.querySelector('.card-stream');
+        const gap = parseFloat(getComputedStyle(track).gap) || 20;
+        track.scrollLeft += (tarjeta.offsetWidth + gap);
+    });
+
+    // --- Movimiento continuo automático (cinta transportadora) ---
+    const VELOCIDAD = 0.6; // píxeles por fotograma; sube este número para que gire más rápido
+
+    function animar() {
+        if (!pausado && !arrastrando) {
+            track.scrollLeft += VELOCIDAD;
+
+            const unaVuelta = anchoUnaVuelta();
+            if (unaVuelta > 0 && track.scrollLeft >= unaVuelta) {
+                track.scrollLeft -= unaVuelta;
+            }
+        }
+        requestAnimationFrame(animar);
+    }
+
+    requestAnimationFrame(animar);
+}
+</script>
 
 {% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Plataformas de Streaming</h2>
+    <a href="{{ url_for('admin.streaming_nuevo') }}" class="btn-mes">+ Nueva Plataforma</a>
+</div>
+
+{% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% if mensajes %}
+        {% for categoria, mensaje in mensajes %}
+            <div class="alert alert-{{ categoria }}">{{ mensaje }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<table class="table table-dark table-hover align-middle">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Visible</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for plataforma in plataformas %}
+        <tr>
+            <td>{{ plataforma.id_streaming }}</td>
+            <td>{{ plataforma.nombre }}</td>
+            <td>${{ "%.2f"|format(plataforma.precio) }}</td>
+            <td>{{ "Sí" if plataforma.estado else "No" }}</td>
+            <td>
+                <a href="{{ url_for('admin.streaming_editar', id_streaming=plataforma.id_streaming) }}"
+                   class="btn btn-sm btn-outline-light">Editar</a>
+
+                <form method="POST"
+                      action="{{ url_for('admin.streaming_eliminar', id_streaming=plataforma.id_streaming) }}"
+                      style="display:inline;"
+                      onsubmit="return confirm('¿Seguro que quieres eliminar esta plataforma?');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-secondary">No hay plataformas registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

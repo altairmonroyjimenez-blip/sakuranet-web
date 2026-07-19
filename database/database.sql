@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS streaming (
     id_streaming INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     precio DECIMAL(10,2),
-    descripcion TEXT,
+    descripcion TEXT, 
     imagen VARCHAR(255),
     estado BOOLEAN
 );

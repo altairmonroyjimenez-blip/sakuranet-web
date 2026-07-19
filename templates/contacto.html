@@ -1,7 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
+<section class="container my-5" style="max-width:600px;">
+    <div class="text-center mb-4">
+        <span class="eyebrow-mes" style="color:#7C3AED;">Contáctanos</span>
+        <h2 class="text-primary fw-bold">Escríbenos</h2>
+        <p class="text-secondary">Completa el formulario y te contactaremos por WhatsApp</p>
+    </div>
 
+    <div id="resumen-interes" class="panel-admin-card p-3 mb-4" style="display:none;">
+        <p class="mb-0 text-secondary" style="font-size:0.85rem;">Estás preguntando por:</p>
+        <p class="mb-0 fw-bold" id="resumen-texto"></p>
+    </div>
 
+    <form id="form-contacto">
+        <div class="mb-3">
+            <label class="form-label" for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" class="form-control neon-input" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" class="form-control neon-input"
+                   placeholder="Ej. 771 123 4567" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="4" class="form-control neon-input" required></textarea>
+        </div>
+        <button type="submit" class="btn-mes w-100">Enviar mensaje por WhatsApp</button>
+    </form>
+</section>
 
+<script>
+// ⚠️ REEMPLAZA este número por el WhatsApp real de SakuraNet
+const NUMERO_WHATSAPP = "527721672536";
+
+const params = new URLSearchParams(window.location.search);
+const nombreItem = params.get('producto');
+const precioItem = params.get('precio');
+const tipo = params.get('tipo');
+
+const mensajeTextarea = document.getElementById('mensaje');
+const resumenDiv = document.getElementById('resumen-interes');
+const resumenTexto = document.getElementById('resumen-texto');
+
+if (nombreItem) {
+    const etiqueta = tipo || 'este artículo';
+    resumenTexto.textContent = nombreItem + (precioItem ? ` — $${precioItem}` : '');
+    resumenDiv.style.display = 'block';
+
+    mensajeTextarea.value = `Hola, me interesa ${etiqueta}: "${nombreItem}"` +
+        (precioItem ? ` (precio: $${precioItem})` : '') +
+        `. ¿Me pueden dar más información?`;
+}
+
+document.getElementById('form-contacto').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const mensaje = document.getElementById('mensaje').value.trim();
+
+    const textoFinal = `Hola, soy ${nombre} (tel: ${telefono}).\n${mensaje}`;
+    const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(textoFinal)}`;
+
+    window.open(url, '_blank');
+});
+</script>
 {% endblock %}

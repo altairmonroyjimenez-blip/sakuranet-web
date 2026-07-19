@@ -17,7 +17,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
+    
+    <script>
+        window.ES_ADMIN = {{ 'true' if current_user.is_authenticated else 'false' }};
+    </script>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -35,6 +38,104 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function() {
+    const inputBuscadorDesktop = document.getElementById('buscador-desktop');
+    const inputBuscadorMobile = document.getElementById('buscador-mobile');
+    const inputs = [inputBuscadorDesktop, inputBuscadorMobile].filter(Boolean);
 
+    if (inputs.length === 0) return; // esta página no tiene barra de búsqueda
+
+    const gridCategoria = document.getElementById('grid-productos-categoria');
+    const contenedorCategorias = document.getElementById('contenedor-categorias');
+
+    const categoriaActualId = gridCategoria ? gridCategoria.dataset.categoriaId : null;
+
+    // Guardamos el HTML original para poder restaurarlo cuando se borre la búsqueda
+    const htmlOriginalCategoria = gridCategoria ? gridCategoria.innerHTML : null;
+
+    let resultadosDiv = null;
+    if (contenedorCategorias) {
+        resultadosDiv = document.createElement('div');
+        resultadosDiv.id = 'resultados-busqueda';
+        resultadosDiv.style.display = 'none';
+        contenedorCategorias.parentNode.insertBefore(resultadosDiv, contenedorCategorias);
+    }
+
+    function tarjetaHTML(p) {
+    return `
+        <div class="col-6 col-md-3">
+            <div class="card producto-card h-100">
+                <img src="/static/img/${p.imagen}" class="card-img-top" alt="${p.nombre}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${p.nombre}</h5>
+                    <p class="card-text fw-bold">$${p.precio.toFixed(2)}</p>
+                    ${window.ES_ADMIN ? '' : '<a href="#" class="btn btn-primary">Comprar</a>'}
+                </div>
+            </div>
+        </div>
+    `;
+}
+    async function buscar(texto) {
+        const params = new URLSearchParams({ q: texto });
+        if (categoriaActualId) params.append('categoria_id', categoriaActualId);
+
+        const respuesta = await fetch(`/api/buscar?${params.toString()}`);
+        const productos = await respuesta.json();
+
+        if (gridCategoria) {
+            // Estamos en una categoría específica (Papelería, Electrónica, etc.)
+            if (productos.length === 0) {
+                gridCategoria.innerHTML = '<p class="text-secondary">No se encontró ese producto en esta sección.</p>';
+            } else {
+                gridCategoria.innerHTML = productos.map(tarjetaHTML).join('');
+            }
+        } else if (contenedorCategorias && resultadosDiv) {
+            // Estamos en la vista general de Productos: búsqueda en todas las categorías
+            if (productos.length === 0) {
+                resultadosDiv.innerHTML = `
+                    <div class="container mb-5">
+                        <p class="text-secondary">No se encontraron productos que coincidan con tu búsqueda.</p>
+                    </div>`;
+            } else {
+                resultadosDiv.innerHTML = `
+                    <div class="container mb-5">
+                        <h2 class="mb-4 text-primary fw-bold">Resultados de búsqueda</h2>
+                        <div class="row g-4">${productos.map(tarjetaHTML).join('')}</div>
+                    </div>`;
+            }
+        }
+    }
+
+    function restaurarVistaOriginal() {
+        if (gridCategoria) {
+            gridCategoria.innerHTML = htmlOriginalCategoria;
+        }
+        if (resultadosDiv) resultadosDiv.style.display = 'none';
+        if (contenedorCategorias) contenedorCategorias.style.display = '';
+    }
+
+    let temporizador = null;
+
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            clearTimeout(temporizador);
+            const texto = input.value.trim();
+
+            temporizador = setTimeout(() => {
+                if (texto === '') {
+                    restaurarVistaOriginal();
+                    return;
+                }
+                if (resultadosDiv && contenedorCategorias) {
+                    contenedorCategorias.style.display = 'none';
+                    resultadosDiv.style.display = 'block';
+                }
+                buscar(texto);
+            }, 350);
+        });
+    });
+})();
+</script>
 </body>
 </html>

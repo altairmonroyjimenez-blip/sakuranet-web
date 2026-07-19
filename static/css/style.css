@@ -750,11 +750,19 @@ body {
     border-color: #ff4df0;
 }
 
-/* Input con borde neón */
+/* Input con borde neón — completo, sin lado cortado */
 .neon-input {
-    border-radius: 0 20px 20px 0;
-    border: 1px solid #ff4df0;
-    border-left: none;
+    background: #f5f5f7;
+    color: #1a1a2e;
+    border: 2px solid #ff4df0;
+    border-radius: 20px;
+    padding: 10px 16px;
+}
+
+.neon-input:focus {
+    box-shadow: 0 0 10px #ff4df0;
+    border-color: #ff4df0;
+    outline: none;
 }
 
 .neon-input:focus {
@@ -774,14 +782,6 @@ body {
     justify-content: center;
 }
 
-/* Input con borde neón */
-.neon-input {
-    background: #f5f5f774;
-    color: #1a1a2e;
-    border: 2px solid #ff4df0;
-    border-left: none;
-    border-radius: 0 20px 20px 0;
-}
 
 /* Imagen para banners tipo "collage" (ej. paquetes de Internet) */
 .banner-paquetes-img {
@@ -823,4 +823,336 @@ body {
     background: #000;
     color: #fff;
     border: 1px solid #333;
+}
+
+
+/* =========================================
+   TARJETAS DE PAQUETES DE INTERNET
+   ========================================= */
+.paquete-internet-card {
+    background: #111827;
+    border-radius: 16px;
+    overflow: hidden;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.paquete-internet-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+}
+
+.paquete-internet-header {
+    padding: 20px;
+    background: linear-gradient(135deg, #1E3A8A, #7C3AED);
+    position: relative;
+}
+
+.paquete-internet-velocidad {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.paquete-internet-velocidad span {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.paquete-internet-subida {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: 4px;
+}
+
+.paquete-internet-body {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.paquete-internet-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    flex-grow: 1;
+}
+
+.paquete-internet-lista li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #d1d5db;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.paquete-internet-lista li::before {
+    content: "✓";
+    color: #a78bfa;
+    font-weight: 700;
+}
+
+.paquete-internet-precio {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #4dff88;
+    margin-bottom: 4px;
+}
+
+.paquete-internet-precio span {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .paquete-internet-velocidad {
+        font-size: 1.5rem;
+    }
+    .paquete-internet-precio {
+        font-size: 1.6rem;
+    }
+}
+
+.paquete-internet-icono {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    color: rgba(255,255,255,0.85);
+}
+
+.paquete-internet-icono svg {
+    width: 100%;
+    height: 100%;
+}
+/* =========================================
+   VARIANTES DE COLOR POR NIVEL DE PAQUETE
+   (psicología del color: confianza -> frescura -> calidad -> lujo)
+   ========================================= */
+
+/* Básico: Azul — confianza, estabilidad */
+.tier-azul .paquete-internet-header {
+    background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+}
+.tier-azul .paquete-internet-icono {
+    color: rgba(255,255,255,0.9);
+}
+.tier-azul:hover {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Estándar: Verde-azulado — frescura, equilibrio */
+.tier-teal .paquete-internet-header {
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+}
+.tier-teal .paquete-internet-icono {
+    color: rgba(255,255,255,0.9);
+}
+.tier-teal:hover {
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.4);
+}
+
+/* Avanzado: Violeta — calidad, tu color de marca */
+.tier-violeta .paquete-internet-header {
+    background: linear-gradient(135deg, #6d28d9, #a855f7);
+}
+.tier-violeta .paquete-internet-icono {
+    color: rgba(255,255,255,0.9);
+}
+.tier-violeta:hover {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+}
+
+/* Premium: Dorado — lujo, exclusividad */
+.tier-dorado .paquete-internet-header {
+    background: linear-gradient(135deg, #92400e, #f59e0b);
+}
+.tier-dorado .paquete-internet-icono {
+    color: rgba(255,255,255,0.95);
+}
+.tier-dorado:hover {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+.tier-dorado .paquete-internet-precio {
+    color: #fbbf24;
+}
+
+
+/* =========================================
+   SECCIÓN STREAMING — carrusel infinito
+   ========================================= */
+.streaming-section {
+    padding: 20px 0 60px;
+}
+
+.carousel-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.carousel-container {
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    cursor: grab;
+    padding: 8px 60px 24px;
+}
+
+.carousel-track.arrastrando {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #111827;
+    border: 2px solid #7C3AED;
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 3;
+}
+
+.carousel-arrow-left { left: 0; }
+.carousel-arrow-right { right: 0; }
+
+.carousel-arrow:hover {
+    background: #7C3AED;
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.5);
+}
+
+.card-stream {
+    flex: 0 0 auto;
+    width: 230px;
+    min-height: 340px;
+    background: #111827;
+    border-radius: 16px;
+    padding: 24px 18px;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+}
+
+.card-stream:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
+}
+
+.card-stream-logo {
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+    flex-shrink: 0;
+}
+
+.card-stream-logo img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+}
+
+.card-stream h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.card-stream p {
+    font-size: 0.82rem;
+    color: #b3b3b8;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    flex-grow: 1;
+    /* Sin recorte: se ve completa la descripción, la tarjeta crece si hace falta */
+}
+
+.card-stream-precio {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #4dff88;
+    margin-bottom: 14px;
+}
+
+.card-stream-precio span {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.btn-interesa {
+    display: inline-block;
+    width: 100%;
+    background: linear-gradient(135deg, #1E3A8A, #7C3AED);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.btn-interesa:hover {
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(124, 58, 237, 0.4);
+}
+
+@media (max-width: 768px) {
+    .carousel-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1.3rem;
+    }
+    .carousel-track {
+        padding: 8px 44px 24px;
+    }
+    .card-stream {
+        width: 170px;
+        min-height: 320px;
+        padding: 18px 14px;
+    }
+    .card-stream-logo {
+        width: 70px;
+        height: 70px;
+    }
 }

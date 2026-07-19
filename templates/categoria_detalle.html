@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mb-3 mt-4">
+    <a href="{{ url_for('main.productos') }}" class="btn-mes-outline">← Volver a Productos</a>
+</div>
+
+<section class="container mb-5">
+    <h2 class="mb-4 text-primary fw-bold">{{ categoria.nombre }}</h2>
+
+    <div class="row g-4" id="grid-productos-categoria" data-categoria-id="{{ categoria.id_categoria }}">
+        {% for producto in productos %}
+        <div class="col-6 col-md-3">
+            <div class="card producto-card h-100">
+                <img src="{{ url_for('static', filename='img/' ~ producto.imagen_sin_fondo) }}"
+                    class="card-img-top" alt="{{ producto.nombre }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                    <p class="card-text fw-bold">${{ "%.2f"|format(producto.precio) }}</p>
+                    {% if not current_user.is_authenticated %}
+<a href="{{ url_for('main.contacto', producto=producto.nombre, precio=producto.precio, tipo='Producto') }}" class="btn btn-primary">Comprar</a>
+{% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-secondary">Aún no hay productos en esta categoría.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

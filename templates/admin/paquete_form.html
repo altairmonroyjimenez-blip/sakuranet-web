@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+
+    <h2 class="mb-2">{{ "Editar Paquete" if paquete else "Nuevo Paquete de Internet" }}</h2>
+    <p class="text-secondary mb-4">
+        {{ "Actualiza los datos de este paquete." if paquete else "Completa la información del paquete que verán los clientes." }}
+    </p>
+
+    <form method="POST">
+
+        <div class="panel-admin-card p-4 mb-3">
+            <h5 class="mb-3">1. Nombre y velocidad</h5>
+
+            <div class="mb-3">
+                <label class="form-label" for="nombre">Nombre del paquete</label>
+                <input type="text" id="nombre" name="nombre" class="form-control neon-input"
+                       placeholder="Ej. Paquete Básico"
+                       value="{{ paquete.nombre if paquete else '' }}" required>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-0">
+                    <label class="form-label" for="velocidad">Velocidad de bajada</label>
+                    <input type="text" id="velocidad" name="velocidad" class="form-control neon-input"
+                           placeholder="Ej. 25 MB"
+                           value="{{ paquete.velocidad if paquete else '' }}" required>
+                </div>
+                <div class="col-6 mb-0">
+                    <label class="form-label" for="subida">Velocidad de subida</label>
+                    <input type="text" id="subida" name="subida" class="form-control neon-input"
+                           placeholder="Ej. 5 MB"
+                           value="{{ paquete.subida if paquete else '' }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-admin-card p-4 mb-3">
+            <h5 class="mb-3">2. Precio</h5>
+            <label class="form-label" for="precio">Precio mensual</label>
+            <div class="input-group">
+                <span class="input-group-text neon-icon">$</span>
+                <input type="number" step="0.01" id="precio" name="precio" class="form-control neon-input"
+                       placeholder="0.00"
+                       value="{{ paquete.precio if paquete else '' }}" required>
+            </div>
+        </div>
+
+        <div class="panel-admin-card p-4 mb-3">
+            <h5 class="mb-3">3. ¿Qué incluye?</h5>
+            <label class="form-label" for="descripcion">Escribe una característica por línea</label>
+            <textarea id="descripcion" name="descripcion" class="form-control neon-input" rows="5"
+                      placeholder="Navegación ilimitada&#10;Redes sociales&#10;Streaming HD&#10;Descargas rápidas">{{ paquete.descripcion if paquete else '' }}</textarea>
+            <small class="text-secondary">Cada línea aparecerá como un punto con una palomita (✓) en la tarjeta del cliente.</small>
+        </div>
+
+        {% if paquete %}
+        <div class="panel-admin-card p-4 mb-4">
+            <div class="form-check">
+                <input type="checkbox" name="estado" class="form-check-input" id="estado"
+                       {% if paquete.estado %}checked{% endif %}>
+                <label class="form-check-label" for="estado">
+                    Mostrar este paquete a los clientes (desmárcalo para ocultarlo sin borrarlo)
+                </label>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn-mes">
+                {{ "💾 Guardar Cambios" if paquete else "✅ Publicar Paquete" }}
+            </button>
+            <a href="{{ url_for('admin.paquetes_lista') }}" class="btn-mes-outline">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
